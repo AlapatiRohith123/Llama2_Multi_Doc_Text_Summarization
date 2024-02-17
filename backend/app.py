@@ -77,7 +77,7 @@ def index():
             insert_result = collection.insert_one({"summary":""})
             client.close()
             id=str(insert_result.inserted_id)
-            with open("notebook\kaggleint3 - Copy - Copy.ipynb","r") as file:
+            with open("notebook\kaggleint3cpy.ipynb","r") as file:
                 notebook=nbformat.read(file, as_version=4)
             target_cell_index = 10
             # x=x.replace('id=\\n',f'id=\\"{id}\\"',1)
