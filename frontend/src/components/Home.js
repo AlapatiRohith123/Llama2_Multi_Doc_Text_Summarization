@@ -27,7 +27,6 @@ const Home = ({settext, flag, setFlag}) => {
           data=JSON.parse(data);
           let status=data["status"];
           let subsummary=data["summary"];
-          subsummary=subsummary.replaceAll("\n","<br>");
           settext(subsummary);
           setFlag(status);
           flag2=status;

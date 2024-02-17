@@ -36,6 +36,7 @@ const styles = {
     marginBottom: '20px',
   },
   text: {
+    whiteSpace: 'pre-line',
     fontSize: '1.2em',
     color: '#555',
     lineHeight: '1.5',
