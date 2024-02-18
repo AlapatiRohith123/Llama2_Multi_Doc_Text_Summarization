@@ -1,2 +1,1 @@
-USER="--your_username_here--"
-API_KEY="--your_api_key_here--"
+REACT_APP_BACKEND="--your_backend_link_here--"
