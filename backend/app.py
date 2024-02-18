@@ -47,54 +47,64 @@ def index():
         db = client.Llama2
         collection = db.summary
         if(flag=="true"):
-            os.environ["KAGGLE_USERNAME"] = os.getenv("USER")
-            os.environ["KAGGLE_KEY"] = os.getenv("API_KEY")
-            inp=request.files
-            print(inp)
-            documents=[]
-            pdf_text=""
-            for i in inp.getlist("file"):
-                doctext=read_pdf(i)
-                pdf_text = pdf_text+doctext+"\n"
-                documents.append(doctext)
-            # Create a TF-IDF vectorizer
-            vectorizer = TfidfVectorizer()
-            # Fit and transform the documents
-            tfidf_matrix = vectorizer.fit_transform(documents)
-            # Calculate cosine similarity
-            cosine_similarities = cosine_similarity(tfidf_matrix, tfidf_matrix)
-            error={
-                "headers":{
-                    "Access-Control-Allow-Origin": "*"
-                },
-                "mongoid":"SimErr"
-            }
-            for i in range(len(documents)):
-                for j in range(len(documents)):
-                    print(cosine_similarities[i][j])
-                    if cosine_similarities[i][j]<0.65:
-                        return json.dumps(error)
-            insert_result = collection.insert_one({"summary":""})
-            client.close()
-            id=str(insert_result.inserted_id)
-            with open("notebook/kaggleint3cpy.ipynb","r") as file:
-                notebook=nbformat.read(file, as_version=4)
-            target_cell_index = 10
-            # x=x.replace('id=\\n',f'id=\\"{id}\\"',1)
-            # x=x.replace('data=',f'data=\\"\\"\\"{pdf_text}\\"\\"\\"',1)
-            code_cell = notebook.cells[target_cell_index]
-            code_cell['source'] += f'id = "{id}"\ntext = """{pdf_text}"""'
-            with open("notebook/kaggleint3.ipynb","w",errors='ignore') as file:
-                nbformat.write(notebook, file)
-            result=subprocess.run(["kaggle", "kernels", "push", "-p", "notebook"])
-            print(result)
-            d={
-                "headers":{
-                    "Access-Control-Allow-Origin": "*"
-                },
-                "mongoid":id
-            }
-            return json.dumps(d)
+            try:
+                os.environ["KAGGLE_USERNAME"] = os.getenv("USER")
+                os.environ["KAGGLE_KEY"] = os.getenv("API_KEY")
+                inp=request.files
+                print(inp)
+                documents=[]
+                pdf_text=""
+                for i in inp.getlist("file"):
+                    doctext=read_pdf(i)
+                    pdf_text = pdf_text+doctext+"\n"
+                    documents.append(doctext)
+                # Create a TF-IDF vectorizer
+                vectorizer = TfidfVectorizer()
+                # Fit and transform the documents
+                tfidf_matrix = vectorizer.fit_transform(documents)
+                # Calculate cosine similarity
+                cosine_similarities = cosine_similarity(tfidf_matrix, tfidf_matrix)
+                error={
+                    "headers":{
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    "mongoid":"SimErr"
+                }
+                for i in range(len(documents)):
+                    for j in range(len(documents)):
+                        print(cosine_similarities[i][j])
+                        if cosine_similarities[i][j]<0.65:
+                            return json.dumps(error)
+                with open("notebook/kaggleint3cpy.ipynb","r") as file:
+                    notebook=nbformat.read(file, as_version=4)
+                target_cell_index = 10
+                insert_result = collection.insert_one({"summary":""})
+                client.close()
+                id=str(insert_result.inserted_id)
+                # x=x.replace('id=\\n',f'id=\\"{id}\\"',1)
+                # x=x.replace('data=',f'data=\\"\\"\\"{pdf_text}\\"\\"\\"',1)
+                code_cell = notebook.cells[target_cell_index]
+                code_cell['source'] += f'id = "{id}"\ntext = """{pdf_text}"""'
+                with open("notebook/kaggleint3.ipynb","w",errors='ignore') as file:
+                    nbformat.write(notebook, file)
+                result=subprocess.run(["kaggle", "kernels", "push", "-p", "notebook"])
+                print(result)
+                d={
+                    "headers":{
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    "mongoid":id
+                }
+                return json.dumps(d)
+            except Exception as e:
+                err={
+                    "headers":{
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    "mongoid":"Error",
+                    "message":f"Something went wrong ({e})"
+                }
+                return json.dumps(err)
         else:
             ntbk_ref=f'{os.getenv("USER")}/kaggleiniti2'
             response = subprocess.run(["kaggle", "kernels", "status", ntbk_ref], capture_output=True)

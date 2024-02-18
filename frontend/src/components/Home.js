@@ -103,6 +103,12 @@ const Home = ({settext, flag, setFlag}) => {
         alert("Please give similar documents(of same domain)");
         return;
       }
+      if(mongoid==="Error")
+      {
+        nav("/");
+        alert(data["message"]);
+        return;
+      }
       console.log(flag);
       repeat();
       // setFlag(false);
