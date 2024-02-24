@@ -84,7 +84,7 @@ def index():
                 # x=x.replace('id=\\n',f'id=\\"{id}\\"',1)
                 # x=x.replace('data=',f'data=\\"\\"\\"{pdf_text}\\"\\"\\"',1)
                 code_cell = notebook.cells[target_cell_index]
-                code_cell['source'] += f'id = "{id}"\ntext = """{pdf_text}"""'
+                code_cell['source'] += f'id = "{id}"\ntext = r"""{pdf_text}"""'
                 with open("notebook/kaggleint3.ipynb","w",errors='ignore') as file:
                     nbformat.write(notebook, file)
                 result=subprocess.run(["kaggle", "kernels", "push", "-p", "notebook"])

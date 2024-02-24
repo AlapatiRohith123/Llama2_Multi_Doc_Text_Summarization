@@ -1,9 +1,15 @@
-import kaggle
+# import kaggle
 import subprocess
 import json
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+os.environ["KAGGLE_USERNAME"] = os.getenv("USER")
+os.environ["KAGGLE_KEY"] = os.getenv("API_KEY")
 # Authenticate with Kaggle API
-kaggle.api.authenticate()
+# kaggle.api.authenticate()
+
+subprocess.run(["kaggle", "kernels", "init", "-p", "D://ps_3//backend"])
 
 # Create a dataset (if it doesn't exist)
 # kaggle.api.dataset_create_new("D:/ps_3/New_folder/data/data.csv")  # Replace with your data file
@@ -22,10 +28,10 @@ kaggle.api.authenticate()
 # result=subprocess.run(["kaggle", "kernels", "push", "-p", "D://ps_3//New_folder//notebook"])
 # print(result)
 
-subprocess.run(["kaggle", "kernels", "output", "alapatirohith/kaggleint6", "-p", "D:\\ps_3\\New_folder"])
-with open('D:\\ps_3\\New_folder\\result.json', 'r') as file:
-    data = json.load(file)
-    print(data)
+# subprocess.run(["kaggle", "kernels", "output", "alapatirohith/kaggleint6", "-p", "D:\\ps_3\\New_folder"])
+# with open('D:\\ps_3\\New_folder\\result.json', 'r') as file:
+#     data = json.load(file)
+#     print(data)
 # # Download the result file
 # kaggle.api.dataset_download_file("dataset", file_name="result.csv", path="D:/ps_3/New_folder")
 

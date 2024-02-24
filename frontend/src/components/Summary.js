@@ -25,6 +25,7 @@ const styles = {
     padding: '20px',
     backgroundColor: '#f0f0f0',
     // borderRadius: '0px 20px',
+    minHeight: '100vh',
     height: '100%',
     // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   },
