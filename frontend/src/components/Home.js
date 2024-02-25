@@ -59,8 +59,9 @@ const Home = ({settext, flag, setFlag}) => {
     newFile.click();
   };
   const submitFiles= async(event)=>{
-    event.preventDefault();
+    // event.preventDefault();
     // nav("/loading");
+    settext("");
     console.log("called");
     console.log(typeof settext);
     console.log(settext);

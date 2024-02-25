@@ -62,12 +62,22 @@
   </style>
 </head>
 <body>
-    <div class="loading-container">
+    <!-- <div class="loading-container">
         <div class="spinner-border" role="status"></div>
         <div style="padding-left: 5px;">Loading...</div>
         
-      </div>
+      </div> -->
+      <form onsubmit="submitFiles()" method="post">
+        <input type='submit' className='btn btn-success'/>
+        </form>
   <!-- Bootstrap JS and Popper.js -->
+  <script>
+     const submitFiles= (event)=>{
+    // event.preventDefault();
+    // nav("/loading");
+    console.log("called");
+     }
+  </script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
